@@ -6,5 +6,5 @@ git add libavformat/evcdec.c
 
 git commit -m "avformat/evc_demuxer: Added demuxer to handle reading EVC video files
 
-- Provided AVInputFormat structure describing EVC input format (ff_evc_demuxer)"
+- Provided AVInputFormat struct describing EVC input format (ff_evc_demuxer)"
 

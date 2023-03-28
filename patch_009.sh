@@ -1,10 +1,8 @@
 #!/bin/bash
 
 git add Changelog
-git add MAINTAINERS
 
-git commit -m "avcodec/evc: Changes in Changelog and MAINTAINERS files
+git commit -m "avcodec/evc: Changes in Changelog file
 
-- Changelog update
-- MAINTAINERS update"
+- Changelog update"
 
