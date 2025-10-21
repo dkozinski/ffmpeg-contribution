@@ -7,9 +7,9 @@ BLUE='\e[34m'
 GREEN='\e[32m'
 RESET='\e[0m'
 
-FFMPEG_PATH=$HOME/ffmpeg_build/bin
-DATA_PATH=$HOME/d.kozinski/ffmpeg_build/bin
-LIB_PATH=$HOME/d.kozinski/ffmpeg_build/lib
+FFMPEG_PATH=/home/d.kozinski/build_ubuntu/bin
+DATA_PATH=/home/d.kozinski/build_ubuntu/bin
+LIB_PATH=/home/d.kozinski/build_ubuntu/lib
 
 export LD_LIBRARY_PATH=$LIB_PATH
 
@@ -19,7 +19,7 @@ BITRATE="10M"
 FRAMERATE=30
 TIME_LENGTH=10 # seconds
 FORMAT="apv"
-PLAY="on" 
+PLAY="on"
 CVR="--" # common video resolution
 
 # Tworzenie tablicy asocjacyjnej z formatami i ich rozdzielczościami
@@ -71,8 +71,8 @@ function help() {
   echo "  -b, --bitrate      Bitrate (default: $BITRATE)"
   echo "  -f, --framerate    Framerate (default: $FRAMERATE)"
   echo "  -t, --time         Time in seconds (default: $TIME_LENGTH)"
-  echo "  -o, --format       Output format (default: $FORMAT; options: apv, mp4)"
-  echo "  -p, --play         Play encoded video (default: $PLAY; options: on, off)"
+  echo "  -o, --format       Output format (default: $PLAY; options: on, off)"
+  echo "  -p, --play         Play encoded video (default: $FORMAT; options: apv, mp4)"
   echo "  -?, --help         Display help"
   echo
   show_available_formats
@@ -186,13 +186,31 @@ echo ""
   echo -e "${BLUE}========== 3.1 Decode using liboapv  ==========${RESET}"
  
 echo ""
+  echo -e "${GREEN}--------------------------------------------------------------------------------${RESET}"
+  echo -e "${GREEN} OUTPUT FORMAT: YUV422p10LE                                                     ${RESET}"
+  echo -e "${GREEN}--------------------------------------------------------------------------------${RESET}"
+  
   echo -e "${FFMPEG_PATH}/ffmpeg -c:v liboapv -i ${OUTPUT_FILE} -strict -1 -pix_fmt yuv422p10le -f yuv4mpegpipe ${OUTPUT_FILE}.y4m\n"
-  ${FFMPEG_PATH}/ffmpeg -y -c:v liboapv -i ${OUTPUT_FILE} -strict -1 -pix_fmt yuv422p10le -f yuv4mpegpipe  ${OUTPUT_FILE}.y4m
+  ${FFMPEG_PATH}/ffmpeg -y -c:v liboapv -i ${OUTPUT_FILE} -strict -1 -pix_fmt yuv422p10le -f yuv4mpegpipe  ${OUTPUT_FILE}_422p10le.y4m
+
+  echo -e "${GREEN}--------------------------------------------------------------------------------${RESET}"
+  echo -e "${GREEN} OUTPUT FORMAT: YUV422p                                                         ${RESET}"
+  echo -e "${GREEN}--------------------------------------------------------------------------------${RESET}"
+  echo -e "${FFMPEG_PATH}/ffmpeg -c:v liboapv -i ${OUTPUT_FILE} -strict -1 -pix_fmt yuv422p -f yuv4mpegpipe ${OUTPUT_FILE}.y4m\n"
+  ${FFMPEG_PATH}/ffmpeg -y -c:v liboapv -i ${OUTPUT_FILE} -strict -1 -pix_fmt yuv422p -f yuv4mpegpipe  ${OUTPUT_FILE}_422p.y4m
  
   echo ""
   echo -e "${BLUE}=========== 3.2 Probe (liboapv decoding results)  ===========${RESET}"
- 
-  ${FFMPEG_PATH}/ffprobe ${OUTPUT_FILE}.y4m
+
+  echo -e "${GREEN}--------------------------------------------------------------------------------${RESET}"
+  echo -e "${GREEN} OUTPUT FORMAT: YUV422p10LE                                                     ${RESET}"
+  echo -e "${GREEN}--------------------------------------------------------------------------------${RESET}"
+  ${FFMPEG_PATH}/ffprobe ${OUTPUT_FILE}_422p10le.y4m
+
+  echo -e "${GREEN}--------------------------------------------------------------------------------${RESET}"
+  echo -e "${GREEN} OUTPUT FORMAT: YUV422p10LE                                                     ${RESET}"
+  echo -e "${GREEN}--------------------------------------------------------------------------------${RESET}"
+   ${FFMPEG_PATH}/ffprobe ${OUTPUT_FILE}_422p.y4m
   
   echo ""
   echo -e "\n\n${BLUE}========== 3.3 Decode using native apv decoder  ===========${RESET}"
